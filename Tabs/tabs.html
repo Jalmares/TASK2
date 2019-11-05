@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabs</title>
+    <style>
+        a {
+            margin: 1rem;
+            padding: 1rem;
+            background-color: hotpink;
+        }
+        div {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        nav {
+            display: block;
+        }
+
+        .selected {
+            background-color: lightpink;
+        }
+   </style>
+</head>
+<body>
+
+<tab-panel>
+    <div data-tabname="one">Tab one</div>
+    <div data-tabname="two">Tab two</div>
+    <div data-tabname="three">Tab three</div>
+</tab-panel>
+
+<script>
+    "use strict";
+
+    const asTabs = (node) => {
+        console.log(node.childNodes);
+
+        const divs = node.querySelectorAll("div");
+        document.body.prepend(document.createElement("nav"));
+        const nav = document.querySelector("nav");
+        divs.forEach(it => {
+            const a = document.createElement("a");
+            a.textContent = it.getAttribute("data-tabname");
+            nav.appendChild(a);
+        });
+        divs[0].style.display = "block";
+        const a = document.querySelectorAll("a");
+        a[0].setAttribute("class", "selected");
+        a.forEach(it => {
+          it.addEventListener("click", e => {
+              divs.forEach(it => {
+                  if(it.getAttribute("data-tabname") === e.target.textContent) {
+                      it.style.display = "block";
+                      a.forEach(it => {
+                          it.removeAttribute("class");
+                      });
+                      e.target.setAttribute("class", "selected");
+                  } else {
+                      it.style.display = "none";
+                  }
+              });
+          })
+        });
+    };
+    asTabs(document.querySelector("tab-panel"));
+</script>
+</body>
+</html>

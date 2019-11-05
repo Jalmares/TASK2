@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p style ="font-size: 50px;">🎈</p>
+
+<script>
+    // Your code here
+    'use strict';
+
+    const balloon = document.querySelector("p");
+
+    document.onkeydown = function (key) {
+        let size = parseFloat(balloon.style.fontSize);
+        if(size > 60){
+            const explosion = document.createTextNode("💥");
+            balloon.replaceChild(explosion, balloon.childNodes[0]);
+            key.preventDefault();
+        }
+
+        if(key.keyCode == "40") {
+            balloon.style.fontSize = (size * 0.9) + "px";
+            key.preventDefault();
+        }
+        if(key.keyCode == "38") {
+            balloon.style.fontSize = (size * 1.1) + "px";
+            key.preventDefault();
+        }
+    }
+</script>
+</body>
+</html>

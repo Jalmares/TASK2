@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .trail { /* className for the trail elements */
+        position: absolute;
+        height: 6px; width: 6px;
+        border-radius: 3px;
+        background: teal;
+    }
+    body {
+        height: 300px;
+    }
+</style>
+<body>
+<script>
+    "use strict";
+    const dots = [];
+    const mouse = {
+        x : 0,
+        y : 0
+    };
+
+    const Dot = function () {
+        this.x = 0;
+        this.y = 0;
+        this.node = (function () {
+            let n = document.createElement("div");
+            n.className = "trail";
+            document.body.appendChild(n);
+            return n;
+        }());
+    };
+
+    Dot.prototype.draw = function () {
+        this.node.style.left = this.x + "px";
+        this.node.style.top = this.y + "px";
+    };
+
+    for (let i = 0; i < 10; i++) {
+        let d = new Dot();
+        dots.push(d);
+    }
+    
+    function draw() {
+        let x = mouse.x;
+        let y = mouse.y;
+
+        dots.forEach(function (dot, index, dots) {
+            let nextDot = dots[index + 1] || dots[0];
+
+            dot.x = x;
+            dot.y = y;
+            dot.draw();
+            x += (nextDot.x - dot.x) * .5;
+            y += (nextDot.y - dot.y) * .5;
+        });
+    }
+
+    addEventListener("mousemove", function (event) {
+        mouse.x = event.pageX;
+        mouse.y = event.pageY;
+        console.log("mouse coordinates", event.pageX, event.pageY);
+    });
+    
+    function animate() {
+        draw();
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+</script>
+</body>
+</html>
